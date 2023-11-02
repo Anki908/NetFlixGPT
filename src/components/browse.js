@@ -1,9 +1,10 @@
 import React from 'react'
+import Header2 from './header2';
 
 const browse = () => {
   return (
     <div>
-      browser
+      <Header2/>
     </div>
   )
 }

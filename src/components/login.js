@@ -1,10 +1,19 @@
 import React, { useState , useRef} from 'react'
 import Header from './header'
 import {Validate} from '../utils/Validate'
+import {createUserWithEmailAndPassword , signInWithEmailAndPassword , updateProfile } from "firebase/auth";
+import {auth} from '../utils/Firebase'
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../utils/userSlice';
 
 const Login = () => {
 
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
   const [isSignIn , setSignIn] = useState(true);
+  const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
   const [errorMsg , setErrorMsg] = useState(null);
@@ -15,6 +24,50 @@ const Login = () => {
 
     const msg = Validate(email.current.value , password.current.value);
     setErrorMsg(msg);
+
+    if(msg) return;
+
+    if(!isSignIn){
+      createUserWithEmailAndPassword(auth , email.current.value , password.current.value,)
+      .then((userCredential) => {
+        // Signed up 
+        const user = userCredential.user;
+        // ...
+        updateProfile(user , {
+          displayName: name.current.value ,
+          photoURL: "https://static-00.iconduck.com/assets.00/user-icon-2048x2048-ihoxz4vq.png"
+        })
+        .then(() => {
+          const {uid , email, displayName , photoURL} = auth.currentUser;
+          dispatch(addUser({ uid:uid , email:email , displayName: displayName , photoURL: photoURL}))
+          navigate("/browser");
+        })
+        .catch((error) => {
+          setErrorMsg();
+        });
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+        setErrorMsg(errorCode + " " + errorMessage);
+      });
+    }
+    else{
+      signInWithEmailAndPassword(auth, email.current.value , password.current.value)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        // ...
+        console.log(user);
+        navigate("/browser");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setErrorMsg(errorCode + " " + errorMessage);
+      });
+    }
   }
 
   const toggleSign = () => {
@@ -30,6 +83,7 @@ const Login = () => {
       <form onSubmit={(e) => e.preventDefault()} className='w-4/12 absolute p-12 bg-black my-36 mx-auto right-0 left-0 text-white rounded-lg bg-opacity-80'>
         <h1 className='font-bold text-3xl py-4'>{isSignIn ? "Sign In" : "Sign Up"}</h1>
         {!isSignIn && <input
+          ref = {name}
           type = "text"
           placeholder="Full Name"
           className="p-4 my-4 w-full bg-gray-700"
