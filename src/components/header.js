@@ -1,6 +1,31 @@
-import React from 'react'
+import { onAuthStateChanged } from 'firebase/auth';
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux';
+import { addUser, removeUser } from '../utils/userSlice';
+import { useNavigate } from 'react-router-dom';
+import { auth } from '../utils/Firebase';
 
-const header = () => {
+const Header = () => {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const subscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const {uid , email, displayName , photoURL} = user;
+        dispatch(addUser({ uid:uid , email:email , displayName: displayName , photoURL: photoURL}));
+        navigate("/browser");
+      } else {
+        dispatch(removeUser());
+        navigate("/");
+      }
+    });
+
+    return() => subscribe();
+  } ,[])
+
+
   return (
     <div className='px-8 w-full py-2 absolute bg-gradient-to-b from-black z-10'>
       <img className='w-44'
@@ -9,4 +34,4 @@ const header = () => {
   )
 }
 
-export default header
+export default Header

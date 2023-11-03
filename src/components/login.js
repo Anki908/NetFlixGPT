@@ -9,8 +9,6 @@ import { addUser } from '../utils/userSlice';
 
 const Login = () => {
 
-  const navigate = useNavigate();
-
   const dispatch = useDispatch();
   const [isSignIn , setSignIn] = useState(true);
   const name = useRef(null);
@@ -35,12 +33,11 @@ const Login = () => {
         // ...
         updateProfile(user , {
           displayName: name.current.value ,
-          photoURL: "https://static-00.iconduck.com/assets.00/user-icon-2048x2048-ihoxz4vq.png"
+          photoURL: "https://occ-0-6247-2164.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABdpkabKqQAxyWzo6QW_ZnPz1IZLqlmNfK-t4L1VIeV1DY00JhLo_LMVFp936keDxj-V5UELAVJrU--iUUY2MaDxQSSO-0qw.png?r=e6e"
         })
         .then(() => {
           const {uid , email, displayName , photoURL} = auth.currentUser;
           dispatch(addUser({ uid:uid , email:email , displayName: displayName , photoURL: photoURL}))
-          navigate("/browser");
         })
         .catch((error) => {
           setErrorMsg();
@@ -60,7 +57,6 @@ const Login = () => {
         const user = userCredential.user;
         // ...
         console.log(user);
-        navigate("/browser");
       })
       .catch((error) => {
         const errorCode = error.code;

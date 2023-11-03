@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { auth } from '../utils/Firebase';
-import { signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { addUser, removeUser } from '../utils/userSlice';
 
 const Header2 = () => {
 
@@ -12,12 +13,28 @@ const Header2 = () => {
         //console.log("helo");
         signOut(auth)
         .then(() => {
-            navigate("/");
         })
         .catch((error) => {
             navigate("/error");
         });
     }
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const subscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const {uid , email, displayName , photoURL} = user;
+        dispatch(addUser({ uid:uid , email:email , displayName: displayName , photoURL: photoURL}));
+        navigate("/browser");
+      } else {
+        dispatch(removeUser());
+        navigate("/");
+      }
+    });
+
+    return () => subscribe();
+  } ,[])
 
   return (
       <div className='px-8 w-full py-2 absolute bg-gradient-to-b from-black z-10 flex justify-between'>
