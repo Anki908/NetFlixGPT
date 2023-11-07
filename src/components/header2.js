@@ -51,8 +51,8 @@ const Header2 = () => {
   const Showgpt = useSelector((store) => store.gpt.showGptSearch);
 
   return (
-      <div className='px-8 w-full py-2 absolute bg-gradient-to-b from-black z-10 flex justify-between'>
-        <img className='w-40'
+      <div className='px-8 w-full py-2 absolute bg-gradient-to-b from-black z-10 flex flex-col md:flex-row justify-between'>
+        <img className='w-40 mx-auto md:mx-0'
         src = "https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png" alt = "logo" />
       <div className='flex'>
         {Showgpt && <select className='p-2 m-3 bg-gray-900 text-white rounded-lg' onChange={HandlelangChange}>

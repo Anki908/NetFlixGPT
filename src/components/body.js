@@ -15,6 +15,9 @@ const Body = () => {
         }
     ])
 
+    // console.log("maal");
+    // console.log(process.env.REACT_APP_TMDB_KEY);
+    // console.log(process.env.REACT_APP_OPENAI_KEY);
   return (
     <div className=''>
       <RouterProvider router = {appRouter} />
