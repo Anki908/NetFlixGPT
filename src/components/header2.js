@@ -41,7 +41,7 @@ const Header2 = () => {
     });
 
     return () => subscribe();
-  } ,[])
+  } ,[navigate , dispatch])
 
   const HandlelangChange = (e) => {
     //console.log(e.target.value)

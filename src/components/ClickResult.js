@@ -1,5 +1,4 @@
 import React from 'react'
-import Header2 from './header2'
 import Dummy from './dummy'
 import { useSelector } from 'react-redux'
 import useMovieVideoData from '../Hooks/useMovieVideoData'

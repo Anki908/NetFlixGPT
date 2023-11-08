@@ -17,7 +17,7 @@ const useTopMovies = () => {
 
     useEffect(() => {
         !topM && topMovies();
-    } , []);
+    } , [topM , topMovies]);
 }
 
 export default useTopMovies;

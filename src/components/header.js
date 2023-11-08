@@ -23,7 +23,7 @@ const Header = () => {
     });
 
     return() => subscribe();
-  } ,[])
+  } ,[dispatch , navigate])
 
 
   return (
