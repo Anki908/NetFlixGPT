@@ -18,7 +18,7 @@ const useMovieVideoData = (movieId) => {
     }
 
     useEffect(() => {
-       !movieTrailer && movieVideoData();
+        movieVideoData();
     } , []);
 }
 

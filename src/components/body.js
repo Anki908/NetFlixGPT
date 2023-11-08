@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import Browse from './browse'
 import Login from './login'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import ClickResult from './ClickResult'
 
 const Body = () => {
     const appRouter = createBrowserRouter([
@@ -12,6 +13,10 @@ const Body = () => {
         {
             path: '/browser',
             element: <Browse />
+        },
+        {
+          path: '/Result',
+          element: <ClickResult />
         }
     ])
 
